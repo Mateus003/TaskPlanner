@@ -4,20 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.example.taskplanner.R
 import br.com.example.taskplanner.data.model.Status
 import br.com.example.taskplanner.data.model.Task
 import br.com.example.taskplanner.databinding.FragmentTodoBinding
 import br.com.example.taskplanner.ui.adapter.TaskAdapter
+import br.com.example.taskplanner.ui.adapter.TaskTopAdapter
 
 class TodoFragment : Fragment() {
 
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
     private lateinit var taskAdapter: TaskAdapter
+    private lateinit var taskTopAdapter: TaskTopAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +36,8 @@ class TodoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initListeners()
-        initRecyclerView(getListTask())
+        initRecyclerView()
+        getListTask()
     }
 
     override fun onDestroyView() {
@@ -47,21 +52,42 @@ class TodoFragment : Fragment() {
         }
     }
 
-    private fun initRecyclerView(taskList: List<Task>){
-        taskAdapter = TaskAdapter(taskList)
-        binding.rvTask.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvTask.setHasFixedSize(true)
-        binding.rvTask.adapter = taskAdapter
+    private fun initRecyclerView(){
+        taskTopAdapter = TaskTopAdapter { task, option ->
+            optionSelected(task, option)
+        }
+
+        taskAdapter = TaskAdapter(requireContext()) { task, option ->
+            optionSelected(task, option)
+        }
+        val concatAdapter = ConcatAdapter(taskTopAdapter, taskAdapter)
+        with(binding.rvTask){
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            adapter = concatAdapter
+        }
+
     }
 
-    private fun getListTask(): List<Task>{
-        var tasks =  mutableListOf(Task("as", "estudar progrmação", Status.TODO))
+    private fun getListTask(){
+        val tasksTop =  mutableListOf(Task("aass", "teste", Status.TODO))
+
+        val tasks =  mutableListOf(Task("ads", "estudar progrmação", Status.TODO))
+
+        taskTopAdapter.submitList(tasksTop)
+        taskAdapter.submitList(tasks)
 
 
-        for (i in 0 until 3){
-            tasks.add(Task("xii", "Conseguir um emprego", Status.TODO))
+    }
+
+    private fun optionSelected(task: Task, option: Int){
+        when(option){
+            TaskAdapter.SELECT_REMOVE ->{ Toast.makeText(requireContext(), "Removendo ${task.description}", Toast.LENGTH_LONG).show()}
+            TaskAdapter.SELECT_EDIT ->{}
+            TaskAdapter.SELECT_DETAILS ->{}
+            TaskAdapter.SELECT_NEXT->{}
+
         }
-        return tasks
     }
 
 }

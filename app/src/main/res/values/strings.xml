@@ -39,5 +39,9 @@
     <string name="text_description_form_task_fragment">Descrição</string>
     <string name="hint_edit_description_form_task_fragment">Criar nova tela de login do app</string>
     <string name="text_button_form_task_fragment">Salvar</string>
-
+    
+    <!-- Button task home-->
+    <string name="text_remove">Remover</string>
+    <string name="text_edit">Editar</string>
+    <string name="text_details">Detalhes</string>
 </resources>

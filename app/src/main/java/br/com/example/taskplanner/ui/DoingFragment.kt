@@ -28,7 +28,8 @@ class DoingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerView(getListTask())
+        initRecyclerView()
+        getListTask()
     }
 
     override fun onDestroyView() {
@@ -37,21 +38,32 @@ class DoingFragment : Fragment() {
     }
 
 
-    private fun initRecyclerView(taskList: List<Task>){
-        taskAdapter = TaskAdapter(taskList)
+    private fun initRecyclerView(){
+        taskAdapter = TaskAdapter(requireContext()) { task, option ->
+            optionSelected(task, option)
+
+        }
         binding.rvTask.layoutManager = LinearLayoutManager(requireContext())
         binding.rvTask.setHasFixedSize(true)
         binding.rvTask.adapter = taskAdapter
     }
 
-    private fun getListTask(): List<Task>{
-        var tasks =  mutableListOf(Task("as", "estudar progrmação", Status.TODO))
+    private fun getListTask(){
+        var tasks =  mutableListOf(Task("as", "estudar progrmação", Status.DOING))
 
 
-        for (i in 0 until 4){
-            tasks.add(Task("xii", "Passar em logica", Status.DOING))
+        taskAdapter.submitList(tasks)
+    }
+
+    private fun optionSelected(task: Task, option: Int){
+        when(option){
+            TaskAdapter.SELECT_BACK->{}
+            TaskAdapter.SELECT_REMOVE ->{}
+            TaskAdapter.SELECT_EDIT ->{}
+            TaskAdapter.SELECT_DETAILS ->{}
+            TaskAdapter.SELECT_NEXT->{}
+
         }
-        return tasks
     }
 
 }
