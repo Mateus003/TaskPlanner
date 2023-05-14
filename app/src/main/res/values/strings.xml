@@ -44,4 +44,13 @@
     <string name="text_remove">Remover</string>
     <string name="text_edit">Editar</string>
     <string name="text_details">Detalhes</string>
+
+    <!-- Home Fragment -->
+    <string name="text_title_confirm_logout">Deseja sair da sua conta?</string>
+    <string name="text_instruction_logout">Clique em "Sair" para deslogar da conta</string>
+    <string name="txt_btn_confirm_logout">Sair</string>
+
+
+
+
 </resources>
