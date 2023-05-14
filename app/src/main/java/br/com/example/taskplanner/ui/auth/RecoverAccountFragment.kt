@@ -6,15 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import br.com.example.taskplanner.R
 import br.com.example.taskplanner.databinding.FragmentRecoverAccountBinding
 import br.com.example.taskplanner.util.initToolbar
 import br.com.example.taskplanner.util.showBottomSheet
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class RecoverAccountFragment : Fragment() {
 
     private var _binding: FragmentRecoverAccountBinding? = null
     private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,7 +34,7 @@ class RecoverAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
-
+        auth = Firebase.auth
         initListeners()
     }
 
@@ -40,12 +46,32 @@ class RecoverAccountFragment : Fragment() {
         val email = binding.edtEmail.text.toString().trim()
 
         if (email.isNotEmpty()) {
-            Toast.makeText(requireContext(), "Tudo Certo.", Toast.LENGTH_SHORT).show()
+            recoverPassword(email)
+            binding.progressBar.isVisible = true
         } else {
             showBottomSheet(message = getString(R.string.email_empty))
         }
     }
 
+    private fun recoverPassword(email: String){
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    showBottomSheet(
+                        message = "E-mail de redefinição enviado com sucesso",
+                        onClick = {
+                            findNavController().navigate(R.id.action_recoverAccountFragment_to_loginFragment)
+                        }
+                    )
+
+
+
+                }else{
+                    showBottomSheet(message = "${task.exception?.message}")
+                    binding.progressBar.isVisible = false
+                }
+            }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

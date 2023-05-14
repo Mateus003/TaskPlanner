@@ -57,18 +57,9 @@ class LoginFragment : Fragment() {
 
         if (email.isNotEmpty()) {
             if (password.isNotEmpty()) {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(requireContext(), "Logado", Toast.LENGTH_SHORT).show()
-                            findNavController().navigate(R.id.action_global_homeFragment)
-                            binding.progressBar.isVisible = true
+               loginUser(email, password)
+                binding.progressBar.isVisible = true
 
-                        } else {
-                           showBottomSheet(message =  "${task.exception?.message}")
-                            binding.progressBar.isVisible = false
-                        }
-                    }
 
             } else {
                 showBottomSheet(message = getString(R.string.password_empty))
@@ -76,6 +67,21 @@ class LoginFragment : Fragment() {
         } else {
             showBottomSheet(message = getString(R.string.email_empty))
         }
+
+    }
+
+    private fun loginUser(email: String, password: String){
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(requireContext(), "Logado", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_global_homeFragment)
+
+                } else {
+                    showBottomSheet(message =  "${task.exception?.message}")
+                    binding.progressBar.isVisible = false
+                }
+            }
 
     }
 
