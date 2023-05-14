@@ -57,13 +57,13 @@ class RecoverAccountFragment : Fragment() {
         auth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    showBottomSheet(
+                showBottomSheet(
                         message = "E-mail de redefinição enviado com sucesso",
                         onClick = {
                             findNavController().navigate(R.id.action_recoverAccountFragment_to_loginFragment)
                         }
                     )
-
+                    binding.progressBar.isVisible = false
 
 
                 }else{
