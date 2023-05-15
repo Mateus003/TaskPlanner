@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import br.com.example.taskplanner.R
 import br.com.example.taskplanner.databinding.FragmentFormTaskBinding
 import br.com.example.taskplanner.util.initToolbar
@@ -84,7 +86,24 @@ class FormTaskFragment : Fragment() {
             .child("tasks")
             .child(auth.currentUser?.uid ?: "")
             .child(task.id)
-            .setValue(task)
+            .setValue(task).addOnCompleteListener{result->
+                if (result.isSuccessful){
+                    Toast.makeText(requireContext(),R.string.txt_sucess ,Toast.LENGTH_SHORT).show()
+
+                    if (newTask){
+                        findNavController().popBackStack()
+                    }else{
+                        binding.progressBar.isVisible = false
+                    }
+                }else{
+                    showBottomSheet(
+                        message = getString(R.string.txt_error)
+                    )
+                    binding.progressBar.isVisible = false
+
+                }
+
+            }
 
 
 

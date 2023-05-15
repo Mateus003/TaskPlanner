@@ -49,6 +49,8 @@
     <string name="text_title_confirm_logout">Deseja sair da sua conta?</string>
     <string name="text_instruction_logout">Clique em Confirmar para sair da conta</string>
     <string name="txt_btn_confirm_logout">Confirmar</string>
+    <string name="txt_error">Por favor, tente novamente mais tarde!</string>
+    <string name="txt_sucess">Tarefa salva com sucesso</string>
 
 
 

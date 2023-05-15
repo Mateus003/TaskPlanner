@@ -14,14 +14,12 @@ import br.com.example.taskplanner.data.model.Status
 import br.com.example.taskplanner.data.model.Task
 import br.com.example.taskplanner.databinding.FragmentTodoBinding
 import br.com.example.taskplanner.ui.adapter.TaskAdapter
-import br.com.example.taskplanner.ui.adapter.TaskTopAdapter
 
 class TodoFragment : Fragment() {
 
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
     private lateinit var taskAdapter: TaskAdapter
-    private lateinit var taskTopAdapter: TaskTopAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,14 +51,10 @@ class TodoFragment : Fragment() {
     }
 
     private fun initRecyclerView(){
-        taskTopAdapter = TaskTopAdapter { task, option ->
-            optionSelected(task, option)
-        }
-
         taskAdapter = TaskAdapter(requireContext()) { task, option ->
             optionSelected(task, option)
         }
-        val concatAdapter = ConcatAdapter(taskTopAdapter, taskAdapter)
+        val concatAdapter = taskAdapter
         with(binding.rvTask){
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -70,11 +64,9 @@ class TodoFragment : Fragment() {
     }
 
     private fun getListTask(){
-        val tasksTop =  mutableListOf(Task("aass", "teste", Status.TODO))
 
         val tasks =  mutableListOf(Task("ads", "estudar progrmação", Status.TODO))
 
-        taskTopAdapter.submitList(tasksTop)
         taskAdapter.submitList(tasks)
 
 
