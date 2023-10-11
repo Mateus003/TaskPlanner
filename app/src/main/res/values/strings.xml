@@ -2,7 +2,7 @@
     <string name="app_name">TaskPlanner</string>
 
     <!--Login-->
-   <string name="welcome">Bem vindo de volta!</string>
+    <string name="welcome">Bem vindo(a) de volta!</string>
     <string name="enterYourEmail">Insira seu e-email</string>
     <string name="enterYourPassword">Insira sua senha</string>
     <string name="recoverAccount">Esqueceu sua senha?</string>
@@ -21,6 +21,11 @@
     <string name="recoverAccountTitle">Recuperar conta</string>
     <string name="aboutRecoverAccount">Para recuperar sua conta, basta preecher o campo abaixo que enviaremos o link para mudar a senha de sua conta</string>
     <string name="sent">ENVIAR</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
-
+    <!--HomeFragment -->
+    <string name="todo">A fazer</string>
+    <string name="doing">Fazendo</string>
+    <string name="done">Feitas</string>
 </resources>
