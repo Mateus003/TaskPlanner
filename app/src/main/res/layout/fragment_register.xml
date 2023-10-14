@@ -5,7 +5,19 @@
     android:layout_height="match_parent"
     android:background="@color/green_500"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.fragments.RegisterFragment">
+    tools:context=".View.fragments.auth.RegisterFragment">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back" />
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -20,7 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textSize="17sp"
+        android:fontFamily="@font/playfair_display"
+        android:textSize="22sp"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textAlignment="center"
@@ -49,12 +62,13 @@
             android:text="@string/registerTitle"
             android:textSize="25sp"
             android:textColor="@color/black"
+            android:fontFamily="@font/oswald"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/editTextEmail"
+            android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -63,33 +77,32 @@
             android:drawablePadding="5dp"
             android:background="@drawable/background_edit_text_login"
             android:layout_marginHorizontal="15dp"
-            android:drawableStart="@drawable/ic_email"
-            android:inputType="textEmailAddress"
-            android:hint="@string/enterYourEmail"
+            android:drawableStart="@drawable/ic_person"
+            android:inputType="textPersonName"
+            android:hint="Informe seu nome"
             android:singleLine="true"
             app:layout_constraintTop_toBottomOf="@id/txtLogin"
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/containerEditTextPassword"
+            android:id="@+id/containerEditTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:layout_marginHorizontal="15dp"
             android:singleLine="true"
-            app:passwordToggleEnabled="true"
             app:hintEnabled="false"
-            app:layout_constraintTop_toBottomOf="@id/editTextEmail"
+            app:layout_constraintTop_toBottomOf="@id/editTextName"
             >
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="15dp"
                 android:drawablePadding="5dp"
-                android:hint="@string/enterYourPassword"
+                android:hint="@string/enterYourEmail"
                 android:textColor="@color/black"
-                android:drawableStart="@drawable/ic_lock"
+                android:drawableStart="@drawable/ic_email"
                 android:background="@drawable/background_edit_text_login"
                 android:inputType="textPassword"
 
@@ -106,15 +119,15 @@
             android:singleLine="true"
             app:passwordToggleEnabled="true"
             app:hintEnabled="false"
-            app:layout_constraintTop_toBottomOf="@id/containerEditTextPassword"
+            app:layout_constraintTop_toBottomOf="@id/containerEditTextEmail"
             >
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPasswordRepeat"
+                android:id="@+id/editTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="15dp"
                 android:drawablePadding="5dp"
-                android:hint="Insira sua senha novamente"
+                android:hint="@string/enterYourPassword"
                 android:textColor="@color/black"
                 android:drawableStart="@drawable/ic_lock"
                 android:background="@drawable/background_edit_text_login"
@@ -133,6 +146,7 @@
             android:backgroundTint="@color/teal_500"
             android:text="@string/createAccount"
             android:textSize="18sp"
+            android:fontFamily="@font/open_sans"
             app:layout_constraintTop_toBottomOf="@+id/containerEditTextPasswordRepeat"
             tools:layout_editor_absoluteX="15dp" />
 

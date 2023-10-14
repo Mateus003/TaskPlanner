@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/green_500"
     android:layout_height="match_parent"
-    tools:context=".View.fragments.LoginFragment">
+    android:background="@color/green_500"
+    tools:context=".View.fragments.auth.LoginFragment">
 
 
 
@@ -23,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textSize="17sp"
+        android:fontFamily="@font/playfair_display"
+        android:textSize="22sp"
         android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textAlignment="center"
@@ -51,6 +52,7 @@
             android:layout_marginTop="15dp"
             android:text="@string/welcome"
             android:textSize="25sp"
+            android:fontFamily="@font/oswald"
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,6 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:text="@string/recoverAccount"
+            android:fontFamily="@font/open_sans"
             android:textAlignment="textEnd"
             android:textColor="@color/black"
 
@@ -121,6 +124,8 @@
             android:background="@drawable/background_edit_text_login"
             android:backgroundTint="@color/teal_500"
             android:text="@string/login"
+            android:fontFamily="@font/open_sans"
+
             android:textSize="18sp"
             app:layout_constraintTop_toBottomOf="@+id/recoverPassword"
             tools:layout_editor_absoluteX="15dp" />
@@ -146,7 +151,10 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="15dp"
                 android:textSize="17sp"
+                android:fontFamily="@font/open_sans"
+
                 android:layout_marginStart="15dp"
+
                 />
 
             <TextView
@@ -159,6 +167,8 @@
                 android:textColor="@color/black"
                 android:layout_marginTop="15dp"
                 android:layout_marginStart="5dp"
+                android:fontFamily="@font/open_sans"
+
                 />
 
         </LinearLayout>
