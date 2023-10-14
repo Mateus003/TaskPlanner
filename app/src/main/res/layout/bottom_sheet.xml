@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/background_bottom_sheet"
+    android:padding="10dp"
+    >
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="3.5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_background_top_bottom_sheet"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Atenção"
+        android:layout_marginTop="20dp"
+        android:textSize="17sp"
+        android:layout_marginBottom="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/teal_500"
+        android:textAlignment="center"
+    />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?actionBarDivider"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:text="Informe seu e-mail"
+        android:textAlignment="center"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_understood"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/background_edit_text_login"
+        android:backgroundTint="@color/white"
+        android:text="@string/understood"
+        android:textSize="18sp"
+ />
+
+
+
+
+
+
+</LinearLayout>
