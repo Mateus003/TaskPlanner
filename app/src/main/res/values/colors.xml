@@ -5,6 +5,8 @@
     <color name="green_500">#4CAF50</color>
     <color name="teal_500">#009688</color>
     <color name="gray">#898989</color>
-    <color name="light_green">#90ee90</color>
+    <color name="light_green">#E5FFE6</color>
     <color name="light_gray">#D3D3D3</color>
+    <color name="light_yellow">#FFF6E7</color>
+    <color name="light_pink">#F3E4F6</color>
 </resources>
