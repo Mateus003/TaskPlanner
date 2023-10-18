@@ -10,22 +10,55 @@
     <string name="notRegisterUser">Não possui cadastro?</string>
     <string name="register">Cadastre-se!</string>
 
+    <string name="user_not_created">Usuário não existe</string>
+    <string name="invalid_format_email">Formato de e-mail inválido</string>
+    <string name="login_error">Erro ao logar</string>
+    <string name="invalid_password">Senha inválida</string>
+
 
     <!--Cadastro-->
     <string name="registerTitle">Cadastro</string>
     <string name="EnterYourPasswordRepeat">Insira sua senha novamente</string>
     <string name="createAccount">CRIAR CONTA</string>
-
+    <string name="failure_create_user">Falha o cadastrar o usuário</string>
+    <string name="user_created">Cadastro realizado com sucesso</string>
+    <string name="auth_weak_password_exception">Digite uma senha com no minímo 6 caracteres"</string>
+    <string name="auth_invalid_credentials">E-mail inválido</string>
+    <string name="auth_user_collision">Esse e-mail já foi usado</string>
 
     <!--Recuperar conta-->
     <string name="recoverAccountTitle">Recuperar conta</string>
     <string name="aboutRecoverAccount">Para recuperar sua conta, basta preecher o campo abaixo que enviaremos o link para mudar a senha de sua conta</string>
     <string name="sent">ENVIAR</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email_not_register">E-mail não registrado</string>
+    <string name="failure_email_sent">Falha ao enviar o e-mail</string>
+
+
 
     <!--HomeFragment -->
     <string name="todo">A fazer</string>
     <string name="doing">Fazendo</string>
     <string name="done">Feitas</string>
+    <string name="error">Ops, houve algum erro:(</string>
+
+
+    <!-- Bottom sheet -->
+    <string name="understood">ENTENDI</string>
+    <string name="report_email">Informe seu e-mail</string>
+    <string name="report_password">Informe sua senha</string>
+    <string name="report_name">Informe seu nome</string>
+    <string name="email_send">O link foi enviado para se e-mail, confira sua caixa de entrada</string>
+
+
+    <!--Form Task -->
+    <string name="new_task_create">Criar nova tarefa"</string>
+    <string name="task_description">Descrição da tarefa</string>
+    <string name="task_status">Status da tarefa</string>
+    <string name="create">CRIAR</string>
+    <string name="task_category">Escolha uma categoria da tarefa</string>
+    <string name="done_">Feita</string>
+    <string name="required_task_description">Escreva a descrição da tarefa</string>
+    <string name="failure_save_task">Falha ao salvar a tarefa</string>
+    <string name="save_task_successful">Tarefa salva com sucesso</string>
+
 </resources>
