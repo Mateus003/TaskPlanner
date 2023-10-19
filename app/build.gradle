@@ -54,6 +54,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-auth-ktx")
+    //Firestore
+    implementation 'com.google.firebase:firebase-firestore:24.4.5'
     //splash screen
     implementation 'androidx.core:core-splashscreen:1.0.1'
 
