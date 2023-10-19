@@ -5,24 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
+import com.example.taskplanner.View.fragments.BaseFragment
 import com.example.taskplanner.databinding.FragmentLoginBinding
+import com.example.taskplanner.util.FirebaseHelp
 import com.example.taskplanner.util.showBottomSheet
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.flow.emptyFlow
 
-class LoginFragment : Fragment() {
+
+class LoginFragment : BaseFragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,8 +34,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        auth = Firebase.auth
-
 
         binding.recoverPassword.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_recoverAccountFragment)
@@ -73,6 +69,7 @@ class LoginFragment : Fragment() {
 
         }else{
             authUser(email,password)
+            hideKeyboard()
         }
     }
      override fun onStart() {
@@ -81,8 +78,7 @@ class LoginFragment : Fragment() {
 
     }
     private fun checkAuth(){
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
+        if (FirebaseHelp.getIsAuth()) {
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
     }
