@@ -39,7 +39,8 @@
     <string name="todo">A fazer</string>
     <string name="doing">Fazendo</string>
     <string name="done">Feitas</string>
-    <string name="error">Ops, houve algum erro:(</string>
+    <string name="logout">Deslogado com sucesso</string>
+    <string name="task_removed_successful">Tarefa removida com sucesso"</string>
 
 
     <!-- Bottom sheet -->
@@ -60,5 +61,7 @@
     <string name="required_task_description">Escreva a descrição da tarefa</string>
     <string name="failure_save_task">Falha ao salvar a tarefa</string>
     <string name="save_task_successful">Tarefa salva com sucesso</string>
+    <string name="edit_task">Editando Tarefa</string>
+    <string name="edit">EDITAR</string>
 
 </resources>
