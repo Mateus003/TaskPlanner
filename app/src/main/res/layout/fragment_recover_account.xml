@@ -96,7 +96,7 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_login"
+            android:id="@+id/button_sent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
@@ -115,7 +115,7 @@
 
 
     <ProgressBar
-        android:id="@+id/pg_login"
+        android:id="@+id/pg_recover"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
