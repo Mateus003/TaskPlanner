@@ -3,14 +3,14 @@
     <style name="Base.Theme.TaskPlanner" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green_500</item>
-        <item name="colorPrimaryVariant">@color/green_500</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_500</item>
         <item name="colorSecondaryVariant">@color/teal_500</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/green_500</item>
+        <item name="android:statusBarColor" tools:tagertApi="l">?attr/colorPrimaryVariant</item>
+
     </style>
 
     <style name="Theme.TaskPlanner" parent="Base.Theme.TaskPlanner" />
@@ -21,5 +21,18 @@
         <item name="windowSplashScreenAnimationDuration">2500</item>
         <item name="postSplashScreenTheme">@style/Theme.TaskPlanner</item>
         <item name="windowSplashScreenBackground">@color/green_500</item>
+    </style>
+    
+    <style name="CustomTabLayout" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/oswald</item>
+    </style>
+
+    <style name="ButtonTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:textSize">17sp</item>
+        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="background">@drawable/background_button_task</item>
+        <item name="android:backgroundTint">@null</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>
