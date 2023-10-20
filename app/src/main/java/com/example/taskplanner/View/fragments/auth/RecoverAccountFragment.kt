@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
+import com.example.taskplanner.View.fragments.BaseFragment
 import com.example.taskplanner.databinding.FragmentRecoverAccountBinding
+import com.example.taskplanner.util.FirebaseHelp
 import com.example.taskplanner.util.initToolbar
 import com.example.taskplanner.util.showBottomSheet
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class RecoverAccountFragment : Fragment() {
+class RecoverAccountFragment : BaseFragment() {
     private var _binding: FragmentRecoverAccountBinding? = null
     private val binding get() = _binding!!
 
@@ -25,14 +29,11 @@ class RecoverAccountFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
-        binding.buttonSent.setOnClickListener {
-            validateInformation()
-            binding.pgRecover.isVisible = true
-        }
+
+        initListener()
 
     }
 
@@ -41,49 +42,41 @@ class RecoverAccountFragment : Fragment() {
         _binding = null
     }
 
+    private fun initListener(){
+        binding.buttonSent.setOnClickListener {
+            validateInformation()
+            binding.pgRecover.isVisible = true
 
-    private fun validateInformation(){
-        val email = binding.editTextEmailRecover.text.toString().trim()
-
-        if (email.isNullOrEmpty()){
-            showBottomSheet(R.string.report_email)
-            binding.pgRecover.isVisible = false
-        }else{
-            recoverAccount(email)
         }
     }
 
-    private fun recoverAccount(email:String){
-        Firebase.auth.fetchSignInMethodsForEmail(email)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val signInMethods = task.result?.signInMethods
-                    if (signInMethods.isNullOrEmpty()) {
-                        showBottomSheet(R.string.email_not_register)
-                        binding.pgRecover.isVisible = false
+    private fun validateInformation() {
+        val email = binding.editTextEmailRecover.text.toString().trim().lowercase()
 
-                    } else {
-                        Firebase.auth.sendPasswordResetEmail(email)
-                            .addOnCompleteListener { resetTask ->
-                                if (resetTask.isSuccessful) {
-                                    showBottomSheet(R.string.email_send)
-                                    binding.pgRecover.isVisible = false
+        if (email.isNullOrEmpty()) {
+            showBottomSheet(R.string.report_email)
+            binding.pgRecover.isVisible = false
+        } else {
+            recoverAccount(email)
+            hideKeyboard()
+        }
+    }
 
-                                } else {
-                                    showBottomSheet(R.string.failure_email_sent)
-                                    binding.pgRecover.isVisible = false
-
-                                }
-                            }
-                    }
-                } else {
-                    showBottomSheet(R.string.failure_email_sent)
-                    binding.pgRecover.isVisible = false
-
-                }
+    private fun recoverAccount(email: String) {
+        FirebaseHelp.getAuth().sendPasswordResetEmail(email).addOnCompleteListener { task->
+            binding.pgRecover.isVisible = false
+            if (task.isSuccessful){
+                showBottomSheet(R.string.email_send)
+                findNavController().navigate(R.id.action_recoverAccountFragment_to_loginFragment)
+            }else{
+                showBottomSheet(R.string.failure_email_sent)
             }
+        }
 
     }
 
 
 }
+
+
+

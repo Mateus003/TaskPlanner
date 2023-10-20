@@ -1,6 +1,8 @@
 package com.example.taskplanner.View.fragments.auth
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,23 +11,33 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
+import com.example.taskplanner.View.fragments.BaseFragment
 import com.example.taskplanner.databinding.FragmentRegisterBinding
+import com.example.taskplanner.util.Constants
+import com.example.taskplanner.util.FirebaseHelp
 import com.example.taskplanner.util.initToolbar
 import com.example.taskplanner.util.showBottomSheet
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : BaseFragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var auth: FirebaseAuth
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +51,8 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(binding.toolbar)
-        auth = Firebase.auth
+
+
 
 
         binding.buttonCreate.setOnClickListener {
@@ -67,18 +80,20 @@ class RegisterFragment : Fragment() {
         }else if (password.isNullOrEmpty()){
             showBottomSheet(R.string.report_password)
         }else{
-            createUser(email,password, binding.editTextName.text.toString().trim())
+            createUser(email,password, name)
             binding.pgRegister.isVisible = true
+            hideKeyboard()
 
         }
 
     }
 
     private fun createUser(email: String, password: String, name: String) {
-        auth.createUserWithEmailAndPassword(email, password)
+
+        FirebaseHelp.getAuth().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = auth.currentUser
+                    val user = FirebaseHelp.getAuth().currentUser
                     val profileUpdates = UserProfileChangeRequest.Builder()
                         .setDisplayName(name)
                         .build()
@@ -88,6 +103,7 @@ class RegisterFragment : Fragment() {
                             if (updateProfileTask.isSuccessful) {
                                 Toast.makeText(requireContext(), R.string.user_created, Toast.LENGTH_SHORT).show()
                                 findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                                saveNameUser(name)
                             } else {
                                 binding.pgRegister.isVisible = false
                             }
@@ -106,5 +122,21 @@ class RegisterFragment : Fragment() {
     }
 
 
-
+    private fun saveNameUser(name: String){
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        val dataBase = FirebaseFirestore.getInstance()
+        val user = hashMapOf(
+            "name" to name
+        )
+        dataBase.collection("users")
+            .document(userId)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d(TAG, "Dados do usuário salvos com sucesso!")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Erro ao salvar os dados do usuário", e)
+            }
+    }
 }
+
