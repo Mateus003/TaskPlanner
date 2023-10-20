@@ -18,15 +18,12 @@ import com.example.taskplanner.model.Status
 import com.example.taskplanner.model.Task
 
 class TaskAdapter(val taskSelected: (Task, Int)->Unit) : ListAdapter<Task, TaskAdapter.TaskViewHolder>( DIFF_CALLBACK) {
-    companion object{
-        val SELECTED_BACK = 1
-        val SELECTED_NEXT = 2
-        val SELECTED_DETAIL= 3
+    companion object {
         val SELECTED_REMOVE = 4
-        val SELECTED_EDIT =5
+        val SELECTED_EDIT = 5
 
 
-        private val DIFF_CALLBACK = object  : DiffUtil.ItemCallback<Task>(){
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Task>() {
             override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean {
                 return oldItem.id == newItem.id && oldItem.descriptionTask == newItem.descriptionTask
             }
@@ -40,11 +37,15 @@ class TaskAdapter(val taskSelected: (Task, Int)->Unit) : ListAdapter<Task, TaskA
     }
 
 
-     inner class TaskViewHolder(val binding: ItemTaskBinding) : ViewHolder(binding.root)
+    inner class TaskViewHolder(val binding: ItemTaskBinding) : ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder{
-        return TaskViewHolder(ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent,
-            false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
+        return TaskViewHolder(
+            ItemTaskBinding.inflate(
+                LayoutInflater.from(parent.context), parent,
+                false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
@@ -59,45 +60,43 @@ class TaskAdapter(val taskSelected: (Task, Int)->Unit) : ListAdapter<Task, TaskA
             taskSelected(task, SELECTED_REMOVE)
         }
 
-        holder.binding.detail.setOnClickListener {
-            taskSelected(task, SELECTED_DETAIL)
-        }
+
 
         holder.binding.edit.setOnClickListener {
             taskSelected(task, SELECTED_EDIT)
         }
     }
 
-    private fun setIndication(task: Task, holder: TaskViewHolder){
+    private fun setIndication(task: Task, holder: TaskViewHolder) {
         val containerTask = holder.binding.containerTask
         when (task.status) {
             Status.TODO -> {
-                containerTask.setBackgroundColor(ContextCompat.getColor(containerTask.context, R.color.light_green))
-                holder.binding.icArrowBackIos.isVisible = false
-
-                holder.binding.icArrowForwardIos.setOnClickListener {
-                    taskSelected(task, SELECTED_NEXT)
-                }
+                containerTask.setBackgroundColor(
+                    ContextCompat.getColor(
+                        containerTask.context,
+                        R.color.light_green
+                    )
+                )
 
             }
+
             Status.DOING -> {
-                containerTask.setBackgroundColor(ContextCompat.getColor(containerTask.context, R.color.light_yellow))
-                holder.binding.icArrowBackIos.setOnClickListener {
-                    taskSelected(task, SELECTED_BACK)
-                }
-
-                holder.binding.icArrowForwardIos.setOnClickListener {
-                    taskSelected(task, SELECTED_NEXT)
-                }
+                containerTask.setBackgroundColor(
+                    ContextCompat.getColor(
+                        containerTask.context,
+                        R.color.light_yellow
+                    )
+                )
 
             }
-            Status.DONE -> {
-                containerTask.setBackgroundColor(ContextCompat.getColor(containerTask.context, R.color.light_pink))
-                holder.binding.icArrowForwardIos.isVisible = false
-                holder.binding.icArrowBackIos.setOnClickListener {
-                    taskSelected(task, SELECTED_BACK)
-                }
 
+            Status.DONE -> {
+                containerTask.setBackgroundColor(
+                    ContextCompat.getColor(
+                        containerTask.context,
+                        R.color.light_pink
+                    )
+                )
 
 
             }
