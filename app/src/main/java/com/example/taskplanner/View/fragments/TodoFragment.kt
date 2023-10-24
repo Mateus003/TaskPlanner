@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskplanner.R
+import com.example.taskplanner.View.TaskViewModel
 import com.example.taskplanner.View.adapter.TaskAdapter
 import com.example.taskplanner.databinding.FragmentTodoBinding
 import com.example.taskplanner.model.Status
@@ -35,6 +37,8 @@ class TodoFragment : Fragment() {
 
     private val tasks = mutableListOf<Task>()
 
+    private val viewModel: TaskViewModel by activityViewModels()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
@@ -46,12 +50,36 @@ class TodoFragment : Fragment() {
 
         addTask()
 
+        observerViewModel()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
+
+    private fun observerViewModel(){
+
+        viewModel.taskUpdate.observe(viewLifecycleOwner){updateTask->
+            if (updateTask.status == Status.TODO){
+                val oldList = taskAdapter.currentList
+
+                val newList = oldList.toMutableList().apply {
+                    find{
+                        it.id == updateTask.id
+                    }?.descriptionTask = updateTask.descriptionTask
+                }
+
+                val position = newList.indexOfFirst { it.id == updateTask.id }
+
+                taskAdapter.submitList(newList)
+
+                taskAdapter.notifyItemChanged(position)
+            }
+
+        }
+    }
+
 
     private fun addTask() {
         FirebaseHelp.getDatabase().child(Constants.TASKS).child(FirebaseHelp.getIdUser())
