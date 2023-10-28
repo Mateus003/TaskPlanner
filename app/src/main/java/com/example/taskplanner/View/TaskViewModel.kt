@@ -39,16 +39,14 @@ class TaskViewModel : ViewModel() {
     }
 
 
-    fun addTask(context: Context, status: Status) {
+    fun addTask(context: Context) {
         FirebaseHelp.getDatabase().child(Constants.TASKS).child(FirebaseHelp.getIdUser())
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val taskList = mutableListOf<Task>()
                     for (ds in snapshot.children) {
                         val task = ds.getValue(Task::class.java) as Task
-                        if (task.status == status) {
-                            taskList.add(task)
-                        }
+                        taskList.add(task)
                     }
                     _taskList.postValue(taskList)
                 }
