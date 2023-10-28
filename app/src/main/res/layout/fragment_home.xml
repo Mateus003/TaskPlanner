@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".View.fragments.HomeFragment">
+
+    <LinearLayout
+        android:id="@+id/container_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="15dp"
+        android:layout_marginTop="12dp"
+        android:visibility="invisible"
+
+        android:layout_marginBottom="7dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Olá, "
+            android:textStyle="bold"
+            android:fontFamily="@font/playfair_display"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:ellipsize="end"
+            android:fontFamily="@font/playfair_display"
+            android:textSize="20sp"
+            android:layout_weight="1"
+            android:maxLength="20"/>
+
+        <ImageButton
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="10dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_logout" />
+
+    </LinearLayout>
+
+  <com.google.android.material.appbar.AppBarLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/white"
+      >
+      <androidx.constraintlayout.widget.ConstraintLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+
+
+
+
+          <com.google.android.material.tabs.TabLayout
+              android:id="@+id/tabLayout"
+              android:visibility="invisible"
+
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:padding="2dp"
+              android:background="@drawable/back_tab"
+              android:layout_marginHorizontal="20dp"
+              app:tabTextColor="@color/black"
+              app:tabTextAppearance="@style/CustomTabLayout"
+              app:layout_constraintEnd_toEndOf="parent"
+              app:tabSelectedTextColor="@color/white"
+              app:tabIndicator="@drawable/back_select"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toTopOf="parent"
+              app:tabIndicatorAnimationMode="elastic"
+              app:tabPadding="5dp"
+              app:tabIndicatorFullWidth="true"
+              app:tabIndicatorGravity="stretch"
+              app:tabSelectedTextAppearance="@style/CustomTabLayout"
+              />
+      </androidx.constraintlayout.widget.ConstraintLayout>
+  </com.google.android.material.appbar.AppBarLayout>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:visibility="invisible"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:visibility="invisible"
+
+        android:backgroundTint="@color/teal_500"
+        android:src="@drawable/ic_add_task_home"
+        android:layout_margin="10dp"
+        android:contentDescription="Adicionar nova tarefa"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pgHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
