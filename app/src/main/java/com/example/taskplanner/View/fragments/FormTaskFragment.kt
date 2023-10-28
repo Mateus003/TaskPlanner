@@ -16,11 +16,16 @@ import com.example.taskplanner.databinding.FragmentFormTaskBinding
 import com.example.taskplanner.model.Status
 import com.example.taskplanner.model.Task
 import com.example.taskplanner.util.Constants.TASK
+import com.example.taskplanner.util.Constants.TASKS
 import com.example.taskplanner.util.FirebaseHelp
 import com.example.taskplanner.util.initToolbar
 import com.example.taskplanner.util.showBottomSheet
 import com.google.android.material.snackbar.Snackbar
-
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class FormTaskFragment : BaseFragment() {
     private lateinit var binding: FragmentFormTaskBinding
@@ -28,8 +33,6 @@ class FormTaskFragment : BaseFragment() {
     private lateinit var task:Task
     private var newTask: Boolean = true
     private var status = Status.TODO
-
-
 
     private val viewModel: TaskViewModel by activityViewModels()
 
@@ -50,13 +53,12 @@ class FormTaskFragment : BaseFragment() {
 
         updateTask()
 
-
-
-
     }
 
     private fun configTask(){
         binding.editTaskDescription.setText(task.descriptionTask)
+
+        setStatus()
         newTask = false
         status = task.status
         binding.txtToolbar.text = getString(R.string.edit_task)
@@ -70,25 +72,35 @@ class FormTaskFragment : BaseFragment() {
             binding.pgBar.isVisible = true
             observerViewModel()
         }
+        setStatus()
     }
 
+    private fun setStatus(){
+        binding.radioGroup.setOnCheckedChangeListener { radioGroup, id ->
+            when(id){
+                R.id.todo-> status = Status.TODO
+                R.id.doing -> status = Status.DOING
+                R.id.done -> status = Status.DONE
+            }
+        }
 
+    }
 
     private fun updateTask(){
-         val radioGroup = binding.radioGroup
-        radioGroup.check(R.id.todo)
 
+        val radioGroup = binding.radioGroup
+        radioGroup.check(R.id.todo)
         val getTask = arguments?.getParcelable<Task>(TASK)
 
         getTask?.let {
             this.task = it
             configTask()
 
-           when(it.status){
-               Status.TODO -> radioGroup.check(R.id.todo)
-               Status.DOING -> radioGroup.check(R.id.doing)
-               else ->  radioGroup.check(R.id.done)
-           }
+            when(it.status){
+                Status.TODO -> radioGroup.check(R.id.todo)
+                Status.DOING-> radioGroup.check(R.id.doing)
+                else -> radioGroup.check(R.id.done)
+            }
 
         }
     }
@@ -110,7 +122,6 @@ class FormTaskFragment : BaseFragment() {
 
 
     private fun validateInformation() {
-
         val taskDescription = binding.editTaskDescription.text.toString().trim()
         if (taskDescription.isNullOrEmpty()){
             showBottomSheet(R.string.required_task_description){
@@ -121,9 +132,6 @@ class FormTaskFragment : BaseFragment() {
             if (newTask) {
                 task = Task()
                 task.id= FirebaseHelp.getDatabase().database.reference.push().key!!
-
-
-
             }
 
             task.descriptionTask = taskDescription
@@ -133,7 +141,6 @@ class FormTaskFragment : BaseFragment() {
 
             if (newTask){
                 viewModel.insertTask(task)
-
             }else{
                 viewModel.updateTask(task)
                 binding.pgBar.isVisible = false

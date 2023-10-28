@@ -63,6 +63,7 @@ class TodoFragment : Fragment() {
             initRecyclerView(taskList)
 
 
+            binding.pgTodo.isVisible = false
 
             binding.statusTodo.isVisible = taskList.isEmpty()
 
