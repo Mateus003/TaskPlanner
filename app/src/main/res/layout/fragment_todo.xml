@@ -14,14 +14,6 @@
         tools:listitem="@layout/item_task"
         />
 
-    <ProgressBar
-        android:id="@+id/pgBarTodo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/rvTodo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rvTodo" />
 
     <TextView
         android:id="@+id/statusTodo"
