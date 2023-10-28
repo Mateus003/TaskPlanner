@@ -63,5 +63,6 @@
     <string name="save_task_successful">Tarefa salva com sucesso</string>
     <string name="edit_task">Editando Tarefa</string>
     <string name="edit">EDITAR</string>
+    <string name="select_status">Selecione o status da tarefa</string>
 
 </resources>
