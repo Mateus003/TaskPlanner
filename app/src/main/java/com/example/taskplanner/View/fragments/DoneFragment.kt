@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskplanner.R
+import com.example.taskplanner.View.TaskViewModel
 import com.example.taskplanner.View.adapter.TaskAdapter
 import com.example.taskplanner.databinding.FragmentDoneBinding
 import com.example.taskplanner.model.Status
@@ -32,6 +35,8 @@ class DoneFragment : Fragment() {
     private lateinit var taskAdapter: TaskAdapter
 
     private val tasks = mutableListOf<Task>()
+
+    private val viewModel: TaskViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -45,48 +50,54 @@ class DoneFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        viewModel.addTask(requireContext())
+        observerViewModel()
 
 
-        addTask()
-        
     }
 
-    private fun addTask() {
-        FirebaseHelp.getDatabase().child("tasks").child(FirebaseHelp.getIdUser())
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    tasks.clear()
 
-                    for (ds in snapshot.children) {
-                        val task = ds.getValue(Task::class.java) as Task
-                        if (task.status == Status.DONE) {
-                            tasks.add(task)
-                        }
-                    }
+    private fun observerViewModel(){
+        viewModel.taskDelete.observe(viewLifecycleOwner){task->
+            tasks.remove(task)
+            taskAdapter.submitList(tasks)
 
-                    initRecyclerView(tasks)
+        }
 
-                    if (tasks.isEmpty()) {
-                        binding.statusDone.isVisible = true
-                    }
-                }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(requireContext(), R.string.logout, Toast.LENGTH_SHORT).show()
-                }
-            })
-    }
-    private fun deleteTask(task: Task) {
-        FirebaseHelp.getDatabase().child(TASKS).child(FirebaseHelp.getIdUser()).child(task.id)
-            .removeValue()
-            .addOnCompleteListener { result ->
-                if (result.isSuccessful) {
-                    Toast.makeText(requireContext(), R.string.task_removed_successful, Toast.LENGTH_SHORT).show()
-                    tasks.remove(task)
-                    taskAdapter.submitList(tasks)
-                }
+        viewModel.taskList.observe(viewLifecycleOwner){_taskList->
+            val taskList = _taskList.filter {
+                it.status == Status.DONE
             }
+
+            initRecyclerView(taskList)
+
+
+            binding.statusDone.isVisible = taskList.isEmpty()
+
+        }
+
+
+        viewModel.taskUpdate.observe(viewLifecycleOwner){updateTask->
+            if (updateTask.status == Status.DONE){
+                val oldList = taskAdapter.currentList
+
+                val newList = oldList.toMutableList().apply {
+                    find{
+                        it.id == updateTask.id
+                    }?.descriptionTask = updateTask.descriptionTask
+                }
+
+                val position = newList.indexOfFirst { it.id == updateTask.id }
+
+                taskAdapter.submitList(newList)
+
+                taskAdapter.notifyItemChanged(position)
+            }
+
+        }
     }
+
 
     private fun initRecyclerView(taskList: List<Task>){
         taskAdapter = TaskAdapter(){task,option->
@@ -112,7 +123,7 @@ class DoneFragment : Fragment() {
 
     private fun optionSelected(task: Task, option: Int){
         when(option){
-            TaskAdapter.SELECTED_REMOVE -> deleteTask(task)
+            TaskAdapter.SELECTED_REMOVE -> viewModel.deleteTask(task, requireContext())
             TaskAdapter.SELECTED_EDIT -> {
                 val bundle = Bundle()
                 bundle.putParcelable(TASK, task)
