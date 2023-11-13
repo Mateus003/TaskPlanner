@@ -4,5 +4,7 @@
         <item>@font/open_sans</item>
         <item>@font/oswald</item>
         <item>@font/playfair_display</item>
--    </array>
+        <item>@font/poppins</item>
+        -
+    </array>
 </resources>

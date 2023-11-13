@@ -1,6 +1,7 @@
 package com.example.taskplanner.View.adapter
 
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,6 +54,11 @@ class TaskAdapter(val taskSelected: (Task, Int)->Unit) : ListAdapter<Task, TaskA
 
         holder.binding.textTitleTask.text = task.descriptionTask
 
+        holder.binding.txtDate.text = task.date
+
+        holder.binding.txtCategory.text = task.textCategory
+
+        holder.binding.containerTask.setBackgroundResource(R.drawable.back_select)
 
         setIndication(task, holder)
 
@@ -71,35 +77,23 @@ class TaskAdapter(val taskSelected: (Task, Int)->Unit) : ListAdapter<Task, TaskA
         val containerTask = holder.binding.containerTask
         when (task.status) {
             Status.TODO -> {
-                containerTask.setBackgroundColor(
-                    ContextCompat.getColor(
-                        containerTask.context,
-                        R.color.light_green
-                    )
-                )
-
+                holder.binding.containerTask.setBackgroundResource(R.drawable.background_task_todo)
             }
 
             Status.DOING -> {
-                containerTask.setBackgroundColor(
-                    ContextCompat.getColor(
-                        containerTask.context,
-                        R.color.light_yellow
-                    )
-                )
+                containerTask.setBackgroundResource(R.drawable.background_task_doing)
 
             }
 
             Status.DONE -> {
-                containerTask.setBackgroundColor(
-                    ContextCompat.getColor(
-                        containerTask.context,
-                        R.color.light_pink
-                    )
-                )
-
-
+                containerTask.setBackgroundResource(R.drawable.background_task_done)
             }
         }
     }
+
+    fun dpToPx(dp: Int): Float {
+        val scale = Resources.getSystem().displayMetrics.density
+        return dp * scale
+    }
+
 }

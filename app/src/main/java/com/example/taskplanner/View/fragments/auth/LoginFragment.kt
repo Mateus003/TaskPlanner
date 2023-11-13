@@ -1,14 +1,13 @@
 package com.example.taskplanner.View.fragments.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
-import com.example.taskplanner.View.fragments.BaseFragment
+import com.example.taskplanner.View.fragments.ui.BaseFragment
 import com.example.taskplanner.databinding.FragmentLoginBinding
 import com.example.taskplanner.util.FirebaseHelp
 import com.example.taskplanner.util.showBottomSheet

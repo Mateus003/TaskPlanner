@@ -38,7 +38,6 @@ class TaskViewModel : ViewModel() {
 
     }
 
-
     fun addTask(context: Context) {
         FirebaseHelp.getDatabase().child(Constants.TASKS).child(FirebaseHelp.getIdUser())
             .addValueEventListener(object : ValueEventListener {
@@ -63,6 +62,8 @@ class TaskViewModel : ViewModel() {
         val map = mapOf(
             "descriptionTask" to task.descriptionTask,
             "status" to task.status,
+            "category" to task.category,
+            "textCategory" to task.textCategory
         )
 
         FirebaseHelp.getDatabase().child(Constants.TASKS).child(FirebaseHelp.getIdUser() )

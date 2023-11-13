@@ -9,9 +9,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
 import com.example.taskplanner.View.adapter.ViewPagerAdapter
+import com.example.taskplanner.View.fragments.ui.DoingFragment
+import com.example.taskplanner.View.fragments.ui.DoneFragment
+import com.example.taskplanner.View.fragments.ui.TodoFragment
 import com.example.taskplanner.databinding.FragmentHomeBinding
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -37,8 +38,6 @@ class HomeFragment : Fragment() {
         logout()
 
         setUserName()
-
-
 
     }
 

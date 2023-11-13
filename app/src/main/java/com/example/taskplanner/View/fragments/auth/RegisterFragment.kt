@@ -3,7 +3,6 @@ package com.example.taskplanner.View.fragments.auth
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,24 +10,17 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
-import com.example.taskplanner.View.fragments.BaseFragment
+import com.example.taskplanner.View.fragments.ui.BaseFragment
 import com.example.taskplanner.databinding.FragmentRegisterBinding
-import com.example.taskplanner.util.Constants
 import com.example.taskplanner.util.FirebaseHelp
 import com.example.taskplanner.util.initToolbar
 import com.example.taskplanner.util.showBottomSheet
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 
 class RegisterFragment : BaseFragment() {
     private var _binding: FragmentRegisterBinding? = null

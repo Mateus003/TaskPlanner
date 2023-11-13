@@ -1,4 +1,4 @@
-package com.example.taskplanner.View.fragments
+package com.example.taskplanner.View.fragments.ui
 
 import android.content.Context
 import android.view.inputmethod.InputMethodManager

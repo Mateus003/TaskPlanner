@@ -1,40 +1,42 @@
-package com.example.taskplanner.View.fragments
+package com.example.taskplanner.View.fragments.ui
 
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
 import com.example.taskplanner.View.TaskViewModel
 import com.example.taskplanner.databinding.FragmentFormTaskBinding
+import com.example.taskplanner.model.Category
 import com.example.taskplanner.model.Status
 import com.example.taskplanner.model.Task
 import com.example.taskplanner.util.Constants.TASK
-import com.example.taskplanner.util.Constants.TASKS
 import com.example.taskplanner.util.FirebaseHelp
 import com.example.taskplanner.util.initToolbar
 import com.example.taskplanner.util.showBottomSheet
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import java.util.Date
+import java.util.Locale
 
 class FormTaskFragment : BaseFragment() {
     private lateinit var binding: FragmentFormTaskBinding
 
     private lateinit var task:Task
+
     private var newTask: Boolean = true
     private var status = Status.TODO
 
+    private  var category: Category = Category.PERSONAL
+
+    private var txtCategory: String = "Pessoal"
+
+
     private val viewModel: TaskViewModel by activityViewModels()
+
 
 
     override fun onCreateView(
@@ -52,6 +54,13 @@ class FormTaskFragment : BaseFragment() {
         initListener()
 
         updateTask()
+
+        if (newTask){
+            task = Task()
+            task.id= FirebaseHelp.getDatabase().database.reference.push().key!!
+            setCategory()
+
+        }
 
     }
 
@@ -86,15 +95,49 @@ class FormTaskFragment : BaseFragment() {
 
     }
 
+
+    private fun setCategory(){
+        binding.radioGroupCategory.setOnCheckedChangeListener { radioGroup, id ->
+            when(id){
+                R.id.personal->{
+                    category = Category.PERSONAL
+                    txtCategory = "Pessoal"
+                }
+                R.id.work ->{
+                    category = Category.WORK
+                    txtCategory = "Trabalho"
+
+                }
+                R.id.finance -> {
+                    category = Category.FINANCE
+                    txtCategory = "Finanças"
+
+                }
+                R.id.others->{
+                    category = Category.OTHERS
+                    txtCategory= "Outros"
+
+                }
+            }
+        }
+
+    }
+
     private fun updateTask(){
+        val radioGroupCategory =  binding.radioGroupCategory
+        radioGroupCategory.check(R.id.personal)
 
         val radioGroup = binding.radioGroup
         radioGroup.check(R.id.todo)
+
         val getTask = arguments?.getParcelable<Task>(TASK)
 
         getTask?.let {
             this.task = it
             configTask()
+
+            setCategory()
+
 
             when(it.status){
                 Status.TODO -> radioGroup.check(R.id.todo)
@@ -102,7 +145,20 @@ class FormTaskFragment : BaseFragment() {
                 else -> radioGroup.check(R.id.done)
             }
 
+            when(it.category){
+                Category.PERSONAL-> radioGroupCategory.check(R.id.personal)
+                Category.FINANCE-> radioGroupCategory.check(R.id.finance)
+                Category.WORK-> radioGroupCategory.check(R.id.work)
+                else-> radioGroupCategory.check(R.id.others)
+
+            }
+
+
+
+
+
         }
+
     }
 
     private fun observerViewModel(){
@@ -120,7 +176,6 @@ class FormTaskFragment : BaseFragment() {
     }
 
 
-
     private fun validateInformation() {
         val taskDescription = binding.editTaskDescription.text.toString().trim()
         if (taskDescription.isNullOrEmpty()){
@@ -128,14 +183,19 @@ class FormTaskFragment : BaseFragment() {
                 binding.pgBar.isVisible = false
 
             }
+
+
+            return
+
         }else{
-            if (newTask) {
-                task = Task()
-                task.id= FirebaseHelp.getDatabase().database.reference.push().key!!
-            }
+            task.textCategory = txtCategory
 
             task.descriptionTask = taskDescription
             task.status = status
+
+            task.category = category
+
+            task.date = getStringDate()
 
             hideKeyboard()
 
@@ -150,5 +210,14 @@ class FormTaskFragment : BaseFragment() {
         }
 
     }
+
+    private fun getStringDate(): String {
+        val currentTime = Date()
+        val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return formatter.format(currentTime)
+
+    }
+
+
 
 }
